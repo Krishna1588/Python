@@ -1,0 +1,19 @@
+import math
+class sigmoid:
+    def __init__(self,m,b,x):
+        self.m=m
+        self.b=b
+        self.x=x
+    def getZ(self):
+        return(self.m*self.x+self.b)
+    def final(self):
+        print(1/(1+math.exp(-1*self.getZ())))
+sm=sigmoid(2,3,5)
+print("z=",sm.getZ())
+sm.final()
+
+
+Output:-
+--------
+z= 13
+0.999997739675702
