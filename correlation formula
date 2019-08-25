@@ -1,0 +1,120 @@
+import math  # To call sqrt(), exp() functions
+import numpy # To call mean(), std() functions
+
+class correlation:
+    #constructor
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        # print(self.x)
+        # print(self.y)
+
+        if len(self.x) != len(self.y):
+            print("the number of values in x and y not same:")
+        else:
+            print("both list have same numbers")
+
+    #method to calculate r
+    def correlate_r(self):
+        # print('hi')
+        a = []
+        b = []
+        s = 0
+        # calculating the average of list x
+        for i in self.x:
+            # print(i)
+            s = s + i
+            avgx = s / len(self.x)
+        #appending the values(x[i] - avgx) into an empty list a[]
+        for i in self.x:
+            a.append(i - avgx)
+        # print(avgx)
+        # print(a)
+        #calculating the average of list y
+        t = 0
+        for j in self.y:
+            t = t + j
+            avgy = t / len(self.y)
+        #appending the values(y[j] - avgy) into an empty list b[]
+        for j in self.y:
+            b.append(j - avgy)
+
+        # print(avgy)
+        # print(b)
+        #appending the values of (x[i]-avgx)*(y[j]-avgy) into a list list3
+        c = 0
+        list3 = []
+        for i, j in zip(a, b):
+            list3.append(i * j)
+        # print(list3)
+        #adding the values in list list3
+        sum = 0
+        for i in list3:
+            sum = sum + i
+
+        # print(sum)
+        #appending the values of (x[i]-avgx)^2 into a list list4
+        list4 = []
+        for i in self.x:
+            list4.append((i - avgx) * (i - avgx))
+        # print(list4)
+        #appending the values of (y[j]-avgy)^2 into a list list5
+        list5 = []
+        for j in self.y:
+            list5.append((j - avgy) * (j - avgy))
+        # print(list5)
+        #adding the values in list list4
+        sumx = 0
+        for i in list4:
+            sumx = sumx + i
+        # print(sumx)
+        #adding the list in list list5
+        sumy = 0
+        for j in list5:
+            sumy = sumy + j
+        # print(sumy)
+        mulxy = sumx * sumy
+        # print(mulxy)
+        sqroot = math.sqrt(mulxy)
+        # print(sqroot)
+        r = sum / sqroot
+        return r
+    #to find out the value of m using the formula m=r*(std(y)/std(x))
+    def slope_m(self):
+        a = numpy.std(self.x)
+        b = numpy.std(self.y)
+        c = b / a
+        m = self.correlate_r() * c
+        return m
+    #to find out the value of b using the formula b=y-mx
+    def find_b(self):
+        i = numpy.mean(self.x)
+        j = numpy.mean(self.y)
+        b = j - (self.slope_m() * i)
+        print(i)
+        print(j)
+        return b
+    #to predict the value of y by using the formula y=mx+b
+    def predict_y(self, xnew):
+        y = ((self.slope_m()) * (numpy.mean(xnew))) + self.find_b()
+        return y
+
+
+cr = correlation([1, 2, 3], [4, 5, 6])
+print("r=",cr.correlate_r())
+print("m=",cr.slope_m())
+print("b=",cr.find_b())
+# xnew=eval(input("enter list of values"))
+print("y=",cr.predict_y([1,3,5]))
+
+Output:-
+--------
+both list have same numbers
+r= 1.0
+m= 1.0
+2.0
+5.0
+b= 3.0
+2.0
+5.0
+y= 6.0
